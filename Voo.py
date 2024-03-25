@@ -1,6 +1,9 @@
-from typing import Type
-from datetime import datetime
 from Aeroporto import Aeroporto
+from datetime import datetime
+from Embraer import Embraer
+from Airbus import Airbus
+from Boeing import Boeing
+from typing import Type
 from Aviao import Aviao
 
 class Voo:

@@ -1,4 +1,3 @@
-
 class Aeroporto:
 
     def __init__(self, nome: str) -> None:
