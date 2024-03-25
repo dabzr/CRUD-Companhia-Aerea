@@ -1,4 +1,4 @@
-class Usuario():
+class Usuario:
     def __init__(self, user, senha):
         self.user = user
         self.senha = criptografar_senha(senha)
@@ -14,5 +14,5 @@ class Usuario():
     def senha(self, value):
         self._senha = criptografar_senha(value)
 
-def criar_usuario():
-    pass
+
+
