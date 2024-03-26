@@ -1,4 +1,6 @@
-class Aeroporto:
+from infra.configs import Base
+from sqlalchemy import Column, Integer, String
 
-    def __init__(self, nome: str) -> None:
-        self.nome = nome
+class Aeroporto(Base):
+    id = Column(Integer, primary_key=True)
+    nome = Column(String)
