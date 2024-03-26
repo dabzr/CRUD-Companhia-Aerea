@@ -1,8 +1,7 @@
-from infra.entities import Aeroporto, Aviao
-from typing import Type
-from datetime import datetime 
-from infra.configs import Base
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
+from infra.entities.Aeroporto import Aeroporto
+from infra.entities.Aviao import Aviao
+from infra.configs import Base
 
 class Voo(Base):
 
