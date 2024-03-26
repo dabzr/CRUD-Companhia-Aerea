@@ -1,7 +1,22 @@
-from sqlalchemy import create_engine, Column, Integer
-from sqlalchemy.orm import declarative_base
-class DBConnectionHandler:
-    def __init__(self, dbstring):
-        self.engine = create_engine(dbstring)
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 
-a = 'mysql+pymysql://root:senha@localhost:3306/bancoaviao'
+class DBConnectionHandler:
+    def __init__(self):
+        self.__connection_string =  'mysql+pymysql://root:senha@localhost:3306/bancoaviao'
+        self.__engine = self.__create_database_engine
+        self.session = None
+    
+    def __create_database_engine(self):
+        engine = create_engine(self.__connection_string)
+        return engine
+    
+    def get_engine(self):
+        return self.__engine
+    def __enter__(self):
+        session_make = sessionmaker(bind=__engine)
+        self.session = session_make()
+        return self
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.session.close()
+
