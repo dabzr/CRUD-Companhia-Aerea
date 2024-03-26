@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine, Column, Integer
 from sqlalchemy.orm import declarative_base
-class DBHandling:
+class DBConnectionHandler:
     def __init__(self, dbstring):
         self.engine = create_engine(dbstring)
 
