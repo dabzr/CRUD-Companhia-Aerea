@@ -1,8 +1,7 @@
 from sqlalchemy import Column, Integer
 from infra.entities.Aviao import Aviao
-from infra.configs import Base
 
-class Embraer(Base):
+class Embraer(Aviao):
 
     __tablename__ = "embraer"
 
