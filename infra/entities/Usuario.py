@@ -1,18 +1,11 @@
-class Usuario:
-    def __init__(self, user, senha):
-        self.user = user
-        self.senha = criptografar_senha(senha)
+from sqlalchemy import Column, Integer, String
+from infra.configs import Base
 
-    def criptografar_senha():
-        pass
+class Usuario(Base):
 
-    @property
-    def senha(self):
-        return self._senha
+    __tablename__ = "usuario"
 
-    @senha.setter
-    def senha(self, value):
-        self._senha = criptografar_senha(value)
-
-
+    id = Column(Integer, primary_key = True)
+    user = Column(String)
+    senha = Column(String)
 

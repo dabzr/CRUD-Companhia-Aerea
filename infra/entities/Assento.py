@@ -1,12 +1,16 @@
-from Embraer import Embraer
-from Airbus import Airbus
-from Boeing import Boeing
-from typing import Type
-from Aviao import Aviao
+from sqlalchemy import Column, Boolean, ForeignKey, String
+from infra.entities.Embraer import Embraer
+from infra.entities.Airbus import Airbus
+from infra.entities.Boeing import Boeing
+from infra.entities.Aviao import Aviao
+from infra.configs import Base
 
-class Assento:
+class Assento(Base):
 
-    def __init__(self, assento_id: str, aviao: Type[Aviao]) -> None:
-        self.assento_id = assento_id
-        self.aviao = aviao
-        self.ocupado = False
+    __tablename__ = "assento"
+
+    id = Column(Integer, primary_key = True)
+    assento_id = Column(String)
+    id_aviao = Column(Integer, ForeignKey('aviao.id'))
+    aviao = realtionship("Aviao", back_populates="assento")
+    ocupado = Column(Boolean, default = False)

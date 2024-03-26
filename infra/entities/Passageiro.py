@@ -1,11 +1,12 @@
-from typing import Type
-from Usuario import Usuario 
+from sqlalchemy import String, Integer, ForeignKey
+from infra.entities.Usuario import Usuario
+from infra.configs import Base
 
-class Passageiro():
-    def __init__(self, nome:str, usuario:Type[Usuario]):
-        self.nome = nome
-        self.usuario = usuario
-        pass
+class Passageiro(Base):
 
-    def acessar_tickets():
-        pass
+    __tablename__ = "passageiro"
+
+    id = Column(Integer, primary_key = True)
+    nome = Column(String)
+    id_usuario = Column(Integer, ForeignKey('usuario.id'))
+    usuario = relationship("Usuario", back_populates="passageiro")
