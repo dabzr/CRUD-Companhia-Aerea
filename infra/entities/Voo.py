@@ -1,15 +1,19 @@
-from Aeroporto import Aeroporto
-from datetime import datetime
-from Embraer import Embraer
-from Airbus import Airbus
-from Boeing import Boeing
+from infra.entities import Aeroporto, Aviao
 from typing import Type
-from Aviao import Aviao
+from datetime import datetime 
+from infra.configs import Base
+from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
 
-class Voo:
+class Voo(Base):
 
-    def __init__(self, aeroporto_de_saida: Type[Aeroporto], aeroporto_de_chegada: Type[Aeroporto], horario: Type[datetime], aviao: Type[Aviao]) -> None:
-        self.aeroporto_de_saida = aeroporto_de_saida
-        self.aeroporto_de_chegada = aeroporto_de_chegada
-        self.horario = horario
-        self.aviao = aviao
+    __tablename__ = "voo"
+
+    id = Column(Integer, primary_key=True)
+    id_aeroporto_de_saida = Column(Integer, ForeignKey('aeroporto.id'))
+    id_aeroporto_de_chegada =  Column(Integer, ForeignKey('aeroporto.id')) 
+    horario = Column(DateTime)
+    id_aviao = Column(Integer, ForeignKey('aviao.id')) 
+    
+    aeroporto_de_saida = relationship("Aeroporto", back_populates="voo")
+    aeroporto_de_chegada = relationship("Aeroporto", back_populates="voo")
+    aviao = relationship("Aviao", back_populates="voo")
