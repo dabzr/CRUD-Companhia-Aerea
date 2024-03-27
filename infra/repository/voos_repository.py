@@ -28,13 +28,7 @@ class VooRepository:
             data = db.session.query(Voo).filter(Voo.id == id).delete()
             db.session.commit()
 
-    def update_horario(self, id, horario:datetime):
+    def update_horario(self, id, horario: Type[datetime]):
         with DBConnectionHandler() as db:
             data = db.session.query(Voo).filter(Voo.id == id).update(horario = horario)
             db.session.commit()
-
-
-
-
-
-
