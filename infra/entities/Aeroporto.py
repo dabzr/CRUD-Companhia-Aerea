@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, String
 from infra.configs import Base
 
 class Aeroporto(Base):
