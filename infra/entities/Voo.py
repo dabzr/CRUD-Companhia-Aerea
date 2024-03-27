@@ -1,7 +1,11 @@
+import sys
+sys.path.append('../..')
+
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
 from infra.entities.Aeroporto import Aeroporto
+from sqlalchemy.orm import relationship
 from infra.entities.Aviao import Aviao
-from infra.configs import Base
+from infra.configs.base import Base
 
 class Voo(Base):
 
@@ -16,3 +20,9 @@ class Voo(Base):
     aeroporto_de_saida = relationship("Aeroporto", back_populates="voo")
     aeroporto_de_chegada = relationship("Aeroporto", back_populates="voo")
     aviao = relationship("Aviao", back_populates="voo")
+
+if __name__ == "__main__":
+    from infra.configs.connection import DBConnectionHandler 
+    with DBConnectionHandler() as db:
+        Base.metadata.create_all(db.get_engine())
+
