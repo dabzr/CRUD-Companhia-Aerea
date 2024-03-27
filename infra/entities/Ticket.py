@@ -1,3 +1,4 @@
+from infra.entities.Passageiro import Passageiro
 from infra.entities.Assento import Assento
 from sqlalchemy import Column, ForeignKey
 from infra.entities.Voo import Voo
@@ -12,4 +13,6 @@ class Ticket(Base):
     assento = relationship("Assento", back_populates("ticket"))
     id_voo = Column(Integer, ForeignKey('voo.id'))
     voo = relationship("Voo", back_populates("ticket"))
+    id_passageiro = Column(Integer, FOreignKey('passageiro.id'))
+    passageiro = relationship("Passageiro", back_populates("ticket"))
 
