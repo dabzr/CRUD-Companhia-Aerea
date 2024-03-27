@@ -24,6 +24,6 @@ class PassageiroRepository:
             db.session.commit()
 
     def update_nome(self, nome):
-        with DBConnectionHandler as db:
+        with DBConnectionHandler() as db:
             data = db.session.query(Passageiro).filter(Passageiro.nome == nome).update(nome=nome)
             db.session.commit()
