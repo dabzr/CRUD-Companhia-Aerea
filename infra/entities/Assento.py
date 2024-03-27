@@ -1,7 +1,4 @@
 from sqlalchemy import Column, Boolean, ForeignKey, String
-from infra.entities.Embraer import Embraer
-from infra.entities.Airbus import Airbus
-from infra.entities.Boeing import Boeing
 from infra.entities.Aviao import Aviao
 from infra.configs import Base
 

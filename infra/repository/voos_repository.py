@@ -37,7 +37,7 @@ class VooRepository:
                 db.session.rollback()
 
 
-    def update_horario(self, id, horario:datetime):
+    def update_horario(self, id, horario: Type[datetime]):
         with DBConnectionHandler() as db:
             try:
                 data = db.session.query(Voo).filter(Voo.id == id).update(horario = horario)
@@ -50,3 +50,7 @@ class VooRepository:
 
 
 
+=======
+            data = db.session.query(Voo).filter(Voo.id == id).update(horario = horario)
+            db.session.commit()
+>>>>>>> 683ddebbe215775f4524d427de6d87766f7e859f
