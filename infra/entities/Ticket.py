@@ -13,6 +13,6 @@ class Ticket(Base):
     assento = relationship("Assento", back_populates("ticket"))
     id_voo = Column(Integer, ForeignKey('voo.id'))
     voo = relationship("Voo", back_populates("ticket"))
-    id_passageiro = Column(Integer, FOreignKey('passageiro.id'))
+    id_passageiro = Column(Integer, ForeignKey('passageiro.id'))
     passageiro = relationship("Passageiro", back_populates("ticket"))
 
