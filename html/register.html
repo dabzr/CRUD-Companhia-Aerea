@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+  <h1>Criar conta</h1>
+    <form action="/register" method="post">
+      <label for="text_user">Usuário: </label>
+      <input type="text" id="input_user" autocomplete="off" name="name"><br><br>
+      <label for="text_password">Senha:</label>
+      <input type="password" autocomplete="off" id="input_password" name="password"><br><br>
+      <label type="text_confirm_password">Confirmar senha: </label>
+      <input type="password" autocomplete="off" id="input_confirm_password" name="confirm_password"><br><br>
+      <button type="submit">Criar conta</button>
+    </form>
+
+{% endblock %}
