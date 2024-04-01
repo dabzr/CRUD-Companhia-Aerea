@@ -10,7 +10,8 @@ class Usuario(Base):
 
     id = Column(Integer, primary_key = True)
     user = Column(String(50))
-    senha = Column(String(50))
+    senha = Column(String(60))
+    salt = Column(String(60))
 
 if __name__ == "__main__":
     from infra.configs.connection import DBConnectionHandler 
