@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+  <h1>
+    <form action="/root" method="post">
+      <label for="aviao_title">Avião</input>
+      <input type="text" id="aviao_name" autocomplete="off" name="aviao_name">
+      <input type="text" id ="qtdDeAssentos" name="qtdDeAssentos" autocomplete="off">
+      <button type="submit" name="submit_button" value="adicionar_aviao">Adicionar avião</button>
+      <button type="submit" name="submit_button" value="deletar_aviao">Deletar avião</button>
+    </form>
+  </h1>
+
+{% endblock %}
