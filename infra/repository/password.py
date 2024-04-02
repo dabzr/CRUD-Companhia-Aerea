@@ -1,5 +1,6 @@
 from bcrypt import hashpw, gensalt, checkpw
 import binascii
+
 def create_hash_password(password):
     salt = gensalt(rounds=10)
     bpassword = password.encode('utf-8')
