@@ -5,11 +5,12 @@ app = Flask(__name__)
 
 @app.route("/", methods=["GET", "POST"])
 def login():
-    usuario = request.form.get("name")
-    senha = request.form.get("input_password")
-    repo = UserRepository()
-    repo.insert(usuario, senha)
-    return "hello world"
+    if request.method == "POST":
+        name = request.form.get("name")
+        senha = request.form.get("input_password")
+        repo = UserRepository()
+        repo.insert(usuario, senha)
+    return render_template("index.html")
 
 if __name__ == '__main__':
     app.run(debug=True)
