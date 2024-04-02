@@ -1,6 +1,6 @@
-from infra.configs.connection import DBConnectionHandler
-from infra.entities.Usuario import Usuario
-from infra.repository.password import create_hash_password
+from ..configs.connection import DBConnectionHandler
+from ..entities.Usuario import Usuario
+from ..repository.password import create_hash_password
 class UserRepository:
     def select(self):
         with DBConnectionHandler() as db:

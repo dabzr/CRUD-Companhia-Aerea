@@ -2,7 +2,7 @@ import sys
 sys.path.append('../..')
 
 from sqlalchemy import Column, Integer, String, MetaData
-from infra.configs.base import Base
+from ..configs.base import Base
 
 class Usuario(Base):
 
