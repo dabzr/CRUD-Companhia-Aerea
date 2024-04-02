@@ -51,5 +51,24 @@ class UserRepository:
             except Exception as e:
                 db.session.rollback()
 
-                   
+
+from bcrypt import hashpw, gensalt, checkpw
+import binascii                  
+def verify_password(user, password):
+    b = None
+    repo = UserRepository()
+    users = repo.select()
+    for usuario in users:
+        if usuario.user == user:
+            b = usuario 
+            break
+    if b is None:
+        return False
+    
+    bpassword = password.encode('utf-8')
+    hashed_password = hashpw(bpassword, b.salt.encode('utf-8'))
+    if hashed_password.decode('utf-8') == b.senha:
+        return True
+    return False
+
 
