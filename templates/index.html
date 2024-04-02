@@ -3,13 +3,13 @@
 {% block body %}
 
   <h1>Login</h1>
-    <form action="/">
+    <form action="/" method="post">
       <label for="text_user">Usuário:</label>
       <input type="text" id="input_user" autocomplete="off" name="name"><br><br>
       <label for="text_password">Senha:</label>
       <input type="password" autocomplete="off" id="input_password" name="password"><br><br>
-      <button type="submit">Login</button>
-      <button type="submit">Criar conta</button>
+      <button type="submit" name="submit_button" value="login_button">Login</button>
+      <button type="submit" name="submit_button" value="register_button">Criar conta</button>
     </form>
 
 {% endblock %}
