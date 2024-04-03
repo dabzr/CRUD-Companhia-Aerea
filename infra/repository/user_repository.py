@@ -54,21 +54,14 @@ class UserRepository:
 
 from bcrypt import hashpw, gensalt, checkpw
 import binascii                  
-def verify_password(user, password):
-    b = None
-    repo = UserRepository()
-    users = repo.select()
-    for usuario in users:
-        if usuario.user == user:
-            b = usuario 
-            break
-    if b is None:
-        return False
-    
+from typing import Type
+def verify_password(usuario:Type[Usuario], password):
     bpassword = password.encode('utf-8')
-    hashed_password = hashpw(bpassword, b.salt.encode('utf-8'))
-    if hashed_password.decode('utf-8') == b.senha:
+    hashed_password = hashpw(bpassword, usuario.salt.encode('utf-8'))
+    print(usuario.user)
+    print(hashed_password.decode('utf-8'))
+    print(usuario.senha)
+    if hashed_password.decode('utf-8') == usuario.senha:
         return True
     return False
-
 

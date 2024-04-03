@@ -1,5 +1,5 @@
-from infra.configs.connection import DBConnectionHandler
-from infra.entities.Aeroporto import Aeroporto
+from ..configs.connection import DBConnectionHandler
+from ..entities.Aeroporto import Aeroporto
 
 class AeroportoRepository:
     def select(self):
