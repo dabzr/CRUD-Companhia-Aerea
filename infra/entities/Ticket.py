@@ -3,7 +3,7 @@ from ..entities.Assento import Assento
 from sqlalchemy import Column, ForeignKey, Integer
 from sqlalchemy.orm import relationship
 from ..entities.Voo import Voo
-from ..configs.base import Base
+from ..configs.base import Base, mapper_registry
 
 class Ticket(Base):
     
@@ -20,6 +20,7 @@ class Ticket(Base):
 if __name__ == "__main__":
     from infra.configs.connection import DBConnectionHandler 
     with DBConnectionHandler() as db:
+        mapper_registry.configure()
         Base.metadata.clear
         Base.metadata.create_all(db.get_engine())
 

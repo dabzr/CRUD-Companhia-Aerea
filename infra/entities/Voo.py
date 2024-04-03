@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
 from ..entities.Aeroporto import Aeroporto
 from sqlalchemy.orm import relationship
 from ..entities.Aviao import Aviao
-from ..configs.base import Base
+from ..configs.base import Base, mapper_registry
 
 class Voo(Base):
 
@@ -14,12 +14,14 @@ class Voo(Base):
     horario = Column(DateTime)
     id_aviao = Column(Integer, ForeignKey('aviao.id')) 
     
-    aeroporto_de_saida = relationship("Aeroporto", back_populates="voo")
-    aeroporto_de_chegada = relationship("Aeroporto", back_populates="voo")
     aviao = relationship("Aviao", back_populates="voo")
+    ticket = relationship("Ticket", back_populates="voo")
 
 if __name__ == "__main__":
     from infra.configs.connection import DBConnectionHandler 
     with DBConnectionHandler() as db:
+        mapper_registry.configure()
         Base.metadata.create_all(db.get_engine())
 
+"""  aeroporto_de_saida = relationship("Aeroporto", back_populates="voo_saida")
+    aeroporto_de_chegada = relationship("Aeroporto", back_populates="voo_chegada") """

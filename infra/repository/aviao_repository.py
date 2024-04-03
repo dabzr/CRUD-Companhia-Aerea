@@ -1,4 +1,5 @@
 from ..configs.connection import DBConnectionHandler
+from ..entities.Aviao import Aviao
 from typing import Type
 
 class AviaoRepository:
@@ -12,7 +13,7 @@ class AviaoRepository:
         with DBConnectionHandler() as db:
             try:
                 data_insert = Aviao(nome = nome, 
-                        quatidade_de_assentos = quantidade_de_assentos)
+                        quantidade_de_assentos = quantidade_de_assentos)
                 db.session.add(data_insert)
                 db.session.commit()
             except Exception as e:

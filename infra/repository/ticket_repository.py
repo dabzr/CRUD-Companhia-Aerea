@@ -4,18 +4,21 @@ from ..entities.Assento import Assento
 from ..entities.Passageiro import Passageiro
 from ..entities.Voo import Voo
 from typing import Type
+from sqlalchemy.orm import aliased
 
 class TicketRepository:
     def select(self):
+        Ticket1 = aliased(Ticket)
+        Ticket2 = aliased(Ticket)
         with DBConnectionHandler() as db:
             data = db.session\
             .query(Ticket, Passageiro, Assento, Voo)\
-            .join(Ticket, Passageiro.id == Ticket.id_passageiro, Assento.id == Ticket.id_assento, Voo.id == Ticket.id_voo)\
+            .join(Ticket1, Passageiro.id == Ticket1.id_passageiro)\
             .with_entities(Ticket.id,
-                           Passageiro.nome,
-                           Assento.ocupado,
-                           Assento.assento_id,
-                           Voo.horario)\
+                           Passageiro.nome,)\
+            .join(Ticket2, Assento.id == Ticket2.id_assento)\
+            .with_entities(Ticket.id,
+                           Assento.assento_id,)\
             .all()
             return data
 

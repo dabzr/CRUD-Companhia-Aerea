@@ -1,2 +1,6 @@
 __pycache__/
 flask_session/
+infra/__pycache__/
+infra/configs/__pycache__/
+infra/entities/__pycache__/
+infra/repository/__pycache__/

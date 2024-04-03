@@ -2,18 +2,20 @@
 
 {% block body %}
 
-  {% for nome, valor in dicionario.items() %}
 
-    <h1>
-      <form action="/root" method="post">
-        <label for="elemento_title">{{ nome }}</input>
-        <input type="text" name="arg1" autocomplete="off">
-        <input type="text" name="arg2" autocomplete="off">
-        <button type="submit" name="submit_button" value="adicionar_elemento">Adicionar {{ nome }}</button>
-        <button type="submit" name="submit_button" value="deletar_elemento">Deletar {{ nome }}</button>
-      </form><br><br>
-      {{ valor }}
-    </h1>
-  {% endfor %}
+      {% for i in keys %}
+  {% for dicionario in lista %}
+      <h1>
+        <form action="/root" method="post">
+          <label for="elemento_title">{{ i }}</input>
+          <input type="text" name="arg1" autocomplete="off">
+          <input type="text" name="arg2" autocomplete="off">
+          <button type="submit" name="submit_button" value="adicionar_{{ i }}">Adicionar {{ i }}</button>
+          <button type="submit" name="submit_button" value="deletar_{{ i }}">Deletar {{ i }}</button>
+        </form><br><br>
+        {{ dicionario['user'] }}
+      </h1>
+      {% endfor %}
+    {% endfor %}
 
 {% endblock %}
