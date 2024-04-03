@@ -1,12 +1,9 @@
-import sys
-sys.path.append('../..')
-
-from infra.entities.Passageiro import Passageiro
-from infra.entities.Assento import Assento
+from ..entities.Passageiro import Passageiro
+from ..entities.Assento import Assento
 from sqlalchemy import Column, ForeignKey, Integer
 from sqlalchemy.orm import relationship
-from infra.entities.Voo import Voo
-from infra.configs.base import Base
+from ..entities.Voo import Voo
+from ..configs.base import Base
 
 class Ticket(Base):
     

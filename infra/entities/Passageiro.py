@@ -1,10 +1,8 @@
-import sys
-sys.path.append('../..')
-
 from sqlalchemy import String, Integer, ForeignKey, Column
-from infra.entities.Usuario import Usuario
-from infra.configs.base import Base
+from ..entities.Usuario import Usuario
+from ..configs.base import Base
 from sqlalchemy.orm import relationship
+
 class Passageiro(Base):
 
     __tablename__ = "passageiro"

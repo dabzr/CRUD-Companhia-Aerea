@@ -1,7 +1,7 @@
-from infra.configs.connection import DBConnectionHandler
-from infra.entities.Voo import Voo
-from infra.entities.Aviao import Aviao
-from infra.entities.Aeroporto import Aeroporto
+from ..configs.connection import DBConnectionHandler
+from ..entities.Voo import Voo
+from ..entities.Aviao import Aviao
+from ..entities.Aeroporto import Aeroporto
 from typing import Type
 from datetime import datetime
 
@@ -44,13 +44,3 @@ class VooRepository:
                 db.session.commit()
             except Exception as e:
                 db.session.rollback()
-
-
-
-
-
-
-=======
-            data = db.session.query(Voo).filter(Voo.id == id).update(horario = horario)
-            db.session.commit()
->>>>>>> 683ddebbe215775f4524d427de6d87766f7e859f

@@ -1,5 +1,5 @@
-from infra.configs.connection import DBConnectionHandler
-from typing from Type
+from ..configs.connection import DBConnectionHandler
+from typing import Type
 
 class AviaoRepository:
 

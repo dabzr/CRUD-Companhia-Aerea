@@ -1,11 +1,10 @@
 from flask import Flask, jsonify, render_template, request, redirect, flash, session
 from flask_session import Session
-from .infra.repository.user_repository import UserRepository, verify_password
-from .infra.repository.aeroporto_repository import AeroportoRepository
+from .infra.repository import aeroporto_repository as aeroporto, assento_repository as assento, aviao_repository as aviao, passageiro_repository as passageiro, ticket_repository as ticket, user_repository as usuario, voos_repository as voo
 from .infra.configs.connection import DBConnectionHandler
 from sqlalchemy import MetaData
 from functools import reduce
-#from infra.repository.password import verify_password
+
 app = Flask(__name__)
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
@@ -59,9 +58,16 @@ def root():
         tabelaaquiseria = metadata.tables.values()
         print(tabelaaquiseria)
         listafoda = ['aeroporto', 'assento', 'aviao', 'passageiro', 'usuario', 'ticket', 'voo']
-        listaMAISquefoda={'aeroporto':AeroportoRepository()}
-        print(listaMAISquefoda)
-        return render_template("root.html")
+        dicionarioMAISquefoda={'aeroporto':aeroporto.AeroportoRepository(),
+                           'assento': assento.AssentoRepository(),
+                           'aviao': aviao.AviaoRepository(),
+                           'passageiro': passageiro.PassageiroRepository(),
+                           'usuario': usuario.UserRepository(),
+                           'ticket': ticket.TicketRepository(),
+                           'voo': voo.VooRepository(),
+                           }
+        print(dicionarioMAISquefoda)
+        return render_template("root.html", dicionario=dicionarioMAISquefoda)
     return redirect("/")
 
 if __name__ == '__main__':
