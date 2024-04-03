@@ -1,8 +1,9 @@
-from infra.configs.connection import DBConnectionHandler
-from infra.entities.Ticket import Ticket
-from infra.entities.Assento import Assento
-from infra.entities.Passageiro import Passageiro
-from infra.entities.Voo import Voo
+from ..configs.connection import DBConnectionHandler
+from ..entities.Ticket import Ticket
+from ..entities.Assento import Assento
+from ..entities.Passageiro import Passageiro
+from ..entities.Voo import Voo
+from typing import Type
 
 class TicketRepository:
     def select(self):

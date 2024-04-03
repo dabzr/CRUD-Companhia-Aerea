@@ -1,11 +1,8 @@
-import sys
-sys.path.append('../..')
-
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
-from infra.entities.Aeroporto import Aeroporto
+from ..entities.Aeroporto import Aeroporto
 from sqlalchemy.orm import relationship
-from infra.entities.Aviao import Aviao
-from infra.configs.base import Base
+from ..entities.Aviao import Aviao
+from ..configs.base import Base
 
 class Voo(Base):
 

@@ -1,6 +1,6 @@
-from infra.configs.connection import DBConnectionHandler
-from infra.entities.Assento import Assento
-from infra.entities.Aviao import Aviao
+from ..configs.connection import DBConnectionHandler
+from ..entities.Assento import Assento
+from ..entities.Aviao import Aviao
 from typing import Type
 
 class AssentoRepository:

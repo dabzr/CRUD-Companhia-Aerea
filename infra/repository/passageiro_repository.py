@@ -1,6 +1,6 @@
-from infra.configs.connection import DBConnectionHandler
-from infra.entities.Passageiro import Passageiro
-from infra.entities.Usuario import Usuario
+from ..configs.connection import DBConnectionHandler
+from ..entities.Passageiro import Passageiro
+from ..entities.Usuario import Usuario
 from typing import Type
 
 class PassageiroRepository:
@@ -8,7 +8,7 @@ class PassageiroRepository:
         with DBConnectionHandler() as db:
             data = db.session\
             .query(Passageiro, Usuario)\
-            .join(Passageiro, Usuario.id == Passageiro.id_usuario)
+            .join(Passageiro, Usuario.id == Passageiro.id_usuario)\
             .with_entities(Passageiro.nome,
                            Usuario.user,
                            Usuario.senha)\

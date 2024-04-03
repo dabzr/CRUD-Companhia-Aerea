@@ -1,8 +1,5 @@
-import sys
-sys.path.append('../..')
-
 from sqlalchemy import String, Integer, Column
-from infra.configs.base import Base
+from ..configs.base import Base
 
 class Aviao(Base):
 

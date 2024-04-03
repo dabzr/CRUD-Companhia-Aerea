@@ -1,10 +1,7 @@
-import sys
-sys.path.append('../..')
-
 from sqlalchemy import Column, Boolean, ForeignKey, String, Integer
 from sqlalchemy.orm import relationship
-from Aviao import Aviao
-from infra.configs.base import Base
+from ..entities.Aviao import Aviao
+from ..configs.base import Base
 
 class Assento(Base):
 
