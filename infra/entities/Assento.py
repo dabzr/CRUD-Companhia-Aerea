@@ -1,13 +1,13 @@
 from sqlalchemy import Column, Boolean, ForeignKey, String, Integer
 from sqlalchemy.orm import relationship
-#from ..entities.Aviao import Aviao
-#from ..configs.base import Base, mapper_registry
-import sys
-sys.path.append('../..')
-from infra.configs.base import Base, mapper_registry    
-from infra.entities.Aviao import Aviao
+from ..entities.Aviao import Aviao
+from ..configs.base import Base, mapper_registry
+#import sys
+#sys.path.append('../..')
+#from infra.configs.base import Base, mapper_registry    
+#from infra.entities.Aviao import Aviao
  
-from infra.configs.connection import DBConnectionHandler 
+#from infra.configs.connection import DBConnectionHandler 
 class Assento(Base):
 
     __tablename__ = "assento"

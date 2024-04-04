@@ -3,19 +3,15 @@
 {% block body %}
 
 
-      {% for i in keys %}
-  {% for dicionario in lista %}
+  {% for item in elementos %}
       <h1>
         <form action="/root" method="post">
-          <label for="elemento_title">{{ i }}</input>
-          <input type="text" name="arg1" autocomplete="off">
-          <input type="text" name="arg2" autocomplete="off">
-          <button type="submit" name="submit_button" value="adicionar_{{ i }}">Adicionar {{ i }}</button>
-          <button type="submit" name="submit_button" value="deletar_{{ i }}">Deletar {{ i }}</button>
+          <label for="elemento_title">{{ item.capitalize() }}</input>
+          <button type="submit" name="submit_button" value="adicionar_{{ item }}">+</button>
+
+          <button type="submit" name="submit_button" value="ver_{{ item }}">Ver</button>
         </form><br><br>
-        {{ dicionario['user'] }}
       </h1>
-      {% endfor %}
-    {% endfor %}
+  {% endfor %}
 
 {% endblock %}

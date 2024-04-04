@@ -80,16 +80,7 @@ def root():
                            'ticket': ticket.TicketRepository(),
                            'voo': voo.VooRepository(),
                             }
-        for key in tables:
-            sas = []
-            for i in table_repository[key].select():
-                sas.append(i.__dict__.copy())
-                print(sas)
-        print(sas)
-        #dados = {}
-        #for key in tables:
-        #    dados[key] = table_repository[key].select()
-        return render_template("root.html", lista=sas, keys=tables)
+        return render_template("root.html", elementos=tables)
     return redirect("/")
 
 if __name__ == '__main__':
