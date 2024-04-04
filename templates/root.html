@@ -2,16 +2,56 @@
 
 {% block body %}
 
+  <style>
+        .popup {
+          display:  {{ session.get('popupDisplay') }};
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background-color: white;
+          border: 1px solid #ccc;
+          padding: 300px;
+          z-index: 9999;
+        }
+    </style>
+
 
   {% for item in elementos %}
       <h1>
         <form action="/root" method="post">
-          <label for="elemento_title">{{ item.capitalize() }}</input>
+            <label for="elemento_title">{{ item.capitalize() }}</label>
           <button type="submit" name="submit_button" value="adicionar_{{ item }}">+</button>
-
           <button type="submit" name="submit_button" value="ver_{{ item }}">Ver</button>
         </form><br><br>
       </h1>
   {% endfor %}
+
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      {% if messages[0] == 'adicionar' %}
+        <div class="popup">
+          <h2 for="elemento_name">{{ messages[1] }}</h2>
+          <button onclick="this.parentElement.style.display='none';">Fechar</button>
+          <ul>
+          {% for i in session.get('lista') %}
+            <li>{{ i }}</li>
+          {% endfor %}
+          </ul>
+        </div>
+      {% else %}
+         <div class="popup">
+          <h2 for="elemento_name">{{ messages[1] }}</h2>
+          <button onclick="this.parentElement.style.display='none';">Fechar</button>
+          <ul>
+            {% for i in session.get('lista') %}
+            <li>{{ i }}</li>
+          {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+    {% endif %}
+  {% endwith %}
+
 
 {% endblock %}
