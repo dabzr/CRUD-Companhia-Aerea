@@ -7,11 +7,7 @@ class PassageiroRepository:
     def select(self):
         with DBConnectionHandler() as db:
             data = db.session\
-            .query(Passageiro, Usuario)\
-            .join(Passageiro, Usuario.id == Passageiro.id_usuario)\
-            .with_entities(Passageiro.nome,
-                           Usuario.user,
-                           Usuario.senha)\
+            .query(Passageiro)\
             .all()
             return data
 

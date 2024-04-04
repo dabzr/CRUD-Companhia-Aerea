@@ -9,9 +9,7 @@ class VooRepository:
     def select(self):
         with DBConnectionHandler() as db:
             data = db.session\
-                .query(Voo, Aeroporto)\
-                .join(Voo, Aeroporto.id == Voo.id_aeroporto_de_saida, Aeroporto.id == Voo.id_aeroporto_de_chegada)\
-                .with_entities(Voo.horario, Aeroporto.nome, Aeroporto.nome)\
+                .query(Voo)\
                 .all()
             return data
 
