@@ -3,18 +3,30 @@
 {% block body %}
 
   <style>
-        .popup {
-          display:  {{ session.get('popupDisplay') }};
-          position: fixed;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          background-color: white;
-          border: 1px solid #ccc;
-          padding: 300px;
-          z-index: 9999;
-        }
-    </style>
+    .popup {
+      display: {{ session.get('popupDisplay') }};
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      border: 1px solid #ccc;
+      padding: 10px;
+      z-index: 9999;
+      max-height: 80vh; /* Altura máxima do popup (80% da altura da viewport) */
+      width: 80%; /* Largura do popup */
+      overflow-y: auto; /* Adiciona scroll vertical apenas quando necessário */
+    }
+
+    .popup ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .popup li {
+      margin-bottom: 10px; /* Espaçamento entre os itens da lista */
+    }
+  </style>
 
 
   {% for item in elementos %}
@@ -31,13 +43,19 @@
     {% if messages %}
       {% if messages[0] == 'adicionar' %}
         <div class="popup">
-          <h2 for="elemento_name">{{ messages[1] }}</h2>
+          <h2 for="{{ messages[2] }}">{{ messages[1] }}</h2>
           <button onclick="this.parentElement.style.display='none';">Fechar</button>
-          <ul>
-          {% for i in session.get('lista') %}
-            <li>{{ i }}</li>
-          {% endfor %}
-          </ul>
+          <form action="/root" method="post">
+            <ul>
+              {% for key, values in session.get('lista')[0].items() %}
+                {% if 'instance' not in key and key != 'id' and key != 'salt' %}
+                  <label for="text_{{ key }}">{{ key }}: </label>
+                  <input type="text" autocomplete="off" id="input_{{ key }}" name="{{ key }}">
+                {% endif %}
+              {% endfor %}
+            </ul>
+            <button type="submit" name="submit_button" value="insert_{{ messages[1] }}">{{ messages[1] }}</button>
+          </form>
         </div>
       {% else %}
          <div class="popup">
@@ -45,8 +63,13 @@
           <button onclick="this.parentElement.style.display='none';">Fechar</button>
           <ul>
             {% for i in session.get('lista') %}
-            <li>{{ i }}</li>
-          {% endfor %}
+              {% for key, values_string in i.items() %}
+                {% if 'instance' not in key %}
+                  <li>{{ key }}:{{ values_string }}</li>
+                {% endif %}
+              {% endfor %}
+              <br>
+            {% endfor %}
           </ul>
         </div>
       {% endif %}

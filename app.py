@@ -52,14 +52,14 @@ def login():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     global feedback_message
-    usuario = request.form.get("name").lower().strip()
+    user = request.form.get("name").lower().strip()
     senha = request.form.get("password")
     confirmar_senha = request.form.get("confirm_password")
-    if not usuario or not senha:
+    if not user or not senha:
         return render_template("register.html", error_message="Usuários e senhas não podem ser vazios")
     if senha == confirmar_senha:
-        repo = UserRepository()
-        repo.insert(usuario, senha)
+        repo = usuario.UserRepository()
+        repo.insert(user, senha)
         feedback_message = "Conta criada com sucesso!"
         return redirect("/")
     return render_template("register.html", error_message="As senhas precisam ser iguais")
@@ -83,7 +83,19 @@ def root():
             lista = [item.__dict__.copy() for item in lista_objects]
             session['lista'] = lista
             return redirect("/popup")
-    if session.get("name") != "root":
+        if "insert" in request.form["submit_button"]:
+            titulo = list(request.form.items())[-1][-1].split()[-1].lower()
+            args = []
+            lista_higienizada = list(session.get('lista')[0].keys())
+            abc = []
+            for i in lista_higienizada:
+                if "instance" not in i and i != "id":
+                    abc.append(i)
+            lista_higienizada = abc
+            for key in lista_higienizada:
+                args.append(request.form.get(key))
+            table_repository[titulo].insert(*args)
+    if session.get("name") == "root":
         #db = DBConnectionHandler()
         #metadata = MetaData()
         #metadata.reflect(bind=db.get_engine())

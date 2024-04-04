@@ -7,9 +7,7 @@ class AssentoRepository:
     def select(self) -> Type[DBConnectionHandler]:
         with DBConnectionHandler() as db:
             data = db.session\
-                .query(Assento, Aviao)\
-                .join(Assento, Aviao.id == Assento.id_aviao)\
-                .with_entities(Assento.assento_id, Assento.ocupado, Aviao.nome)\
+                .query(Assento)\
                 .all()
             return data
 
