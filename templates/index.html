@@ -4,14 +4,12 @@
 
   <h1>Login</h1>
     <form action="/" method="post">
-      <label for="text_user">Usuário:</label>
-      <input type="text" id="input_user" autocomplete="off" name="name"><br><br>
-      <label for="text_password">Senha:</label>
-      <input type="password" autocomplete="off" id="input_password" name="password"><br><br>
-      <button type="submit" name="submit_button" value="login_button">Login</button>
-      <button type="submit" name="submit_button" value="register_button">Criar conta</button>
+      {{ form.hiddent_tag() }}
+      <div>{{ form.username.label() }}: {{ form.username() }}</div><br>
+      <div>{{ form.password.label() }}: {{ form.password() }}</div><br>
+      <div>{{ form.submit_login() }}</div>
+      <div>{{ form.submit_register() }}</div>
     </form>
-    
     <p> {{ feedback_message }}</p>
 
 {% endblock %}
