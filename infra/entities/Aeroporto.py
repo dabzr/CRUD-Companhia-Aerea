@@ -1,19 +1,12 @@
-from sqlalchemy import Column, String, Integer
-from ..configs.base import Base, mapper_registry
-from sqlalchemy.orm import relationship
+from __main__ import db 
 
-class Aeroporto(Base):
+class Aeroporto(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(50), unique=True, nullable=False)
+    voo_saida = db.relationship("Voo", foreign_keys="[Voo.id_aeroporto_de_saida]", nullable=False, lazy=True)
+    voo_chegada = db.relationship("Voo", foreign_keys="[Voo.id_aeroporto_de_chegada]", nullable=False, lazy=True, )
 
-    __tablename__ = "aeroporto"
+    def __repr__(self):
+        return f"Aeroporto('{self.nome}')"
 
-    id = Column(Integer, primary_key=True)
-    nome = Column(String(50))
-    voo_saida = relationship("Voo", foreign_keys="[Voo.id_aeroporto_de_saida]")
-    voo_chegada = relationship("Voo", foreign_keys="[Voo.id_aeroporto_de_chegada]")
-
-if __name__ == "__main__":
-    from infra.configs.connection import DBConnectionHandler 
-    with DBConnectionHandler() as db:
-        mapper_registry.configure()
-        Base.metadata.create_all(db.get_engine())
 

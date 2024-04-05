@@ -1,27 +1,17 @@
-from sqlalchemy import Column, Boolean, ForeignKey, String, Integer
-from sqlalchemy.orm import relationship
 from ..entities.Aviao import Aviao
-from ..configs.base import Base, mapper_registry
-#import sys
-#sys.path.append('../..')
-#from infra.configs.base import Base, mapper_registry    
-#from infra.entities.Aviao import Aviao
- 
-#from infra.configs.connection import DBConnectionHandler 
-class Assento(Base):
+from __main__ import db
 
-    __tablename__ = "assento"
+class Assento(db.Model):
 
-    id = Column(Integer, primary_key = True)
-    assento_id = Column(String(50))
-    id_aviao = Column(Integer, ForeignKey('aviao.id'))
-    aviao = relationship("Aviao", back_populates="assento")
-    ticket = relationship("Ticket", back_populates="assento")
-    ocupado = Column(Boolean, default = False)
+    id = db.Column(db.Integer, primary_key = True)
+    assento_id = db.Column(db.String(50), nullable=False)
+    id_aviao = Column(db.Integer, db.ForeignKey('aviao.id'))
+    aviao = db.relationship("Aviao", back_populates="assento")
+    ticket = db.relationship("Ticket", back_populates="assento")
+    ocupado = db.Column(Boolean, default = False)
 
-if __name__ == "__main__":
+    def __repr__(self):
+        return f"Assento('{self.aviao}', '{self.ocupado}')"
 
-    with DBConnectionHandler() as db:
-        mapper_registry.configure()
-        Base.metadata.create_all(db.get_engine())
+
 

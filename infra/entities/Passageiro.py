@@ -1,21 +1,11 @@
-from sqlalchemy import String, Integer, ForeignKey, Column
-from ..entities.Usuario import Usuario
-from ..configs.base import Base, mapper_registry
-from sqlalchemy.orm import relationship
+from __main__ import db
+class Passageiro(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    nome = db.Column(db.String(50))
+    id_usuario = db.Column(Integer, ForeignKey('usuario.id'))
+    usuario = db.relationship("Usuario", back_populates="passageiro")
+    ticket = db.relationship("Ticket", back_populates="passageiro")
+    def __repr__(self):
+        return f"Passageiro('{self.nome}', '{self.usuario}')"
 
-class Passageiro(Base):
-
-    __tablename__ = "passageiro"
-
-    id = Column(Integer, primary_key = True)
-    nome = Column(String(50))
-    id_usuario = Column(Integer, ForeignKey('usuario.id'))
-    usuario = relationship("Usuario", back_populates="passageiro")
-    ticket = relationship("Ticket", back_populates="passageiro")
-
-if __name__ == "__main__":
-    from infra.configs.connection import DBConnectionHandler 
-    with DBConnectionHandler() as db:
-        mapper_registry.configure()
-        Base.metadata.create_all(db.get_engine())
 
