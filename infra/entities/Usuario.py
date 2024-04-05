@@ -1,28 +1,11 @@
-import sys
-sys.path.append('../..')
+from __main__ import db
+class Usuario(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    user = db.Column(db.String(50), unique=True, nullable=False)
+    senha = db.Column(db.String(60), nullable=False)
+    salt = db.Column(db.String(60), nullable=False)
+    passageiro = db.relationship("Passageiro", back_populates="usuario")
+    def __repr__(self):
+        return f"Usuario('{self.user}')"
 
-from sqlalchemy import Column, Integer, String, MetaData
-from ..configs.base import Base, mapper_registry
-from sqlalchemy.orm import relationship
-
-class Usuario(Base):
-
-    __tablename__ = "usuario"
-
-    id = Column(Integer, primary_key = True)
-    user = Column(String(50))
-    senha = Column(String(60))
-    salt = Column(String(60))
-    passageiro = relationship("Passageiro", back_populates="usuario")
-
-if __name__ == "__main__":
-    from infra.configs.connection import DBConnectionHandler 
-    with DBConnectionHandler() as db:
-        mapper_registry.configure()
-        metadata = MetaData()
-        metadata.reflect(bind=db.get_engine())
-        tabela = metadata.tables['usuario']
-        if(tabela == 'usuario'):
-            tabela.drop(db.get_engine())
-        Base.metadata.create_all(db.get_engine())
 
