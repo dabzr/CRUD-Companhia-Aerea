@@ -2,12 +2,13 @@ from flask import Flask, jsonify, render_template, request, redirect, flash, ses
 from flask_session import Session
 from .infra.repository import aeroporto_repository as aeroporto, assento_repository as assento, aviao_repository as aviao, passageiro_repository as passageiro, ticket_repository as ticket, user_repository as usuario, voos_repository as voo
 from .infra.configs.connection import DBConnectionHandler
+from .forms import RegistrationForm
 from sqlalchemy import MetaData
 from sqlalchemy.orm import class_mapper
 from functools import reduce
 import json
 app = Flask(__name__)
-app.secret_key = "testando"
+app.config["SECRET_KEY"] = "9e4976770668bf1ce6786245c1208161"
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
@@ -33,7 +34,7 @@ def login():
     session.clear()
     if request.method == "POST":
         if request.form["submit_button"] == "register_button":
-            return render_template("register.html")
+            return redirect("/register")
         if request.form["submit_button"] == "login_button":
             user = request.form.get("name").lower().strip()
             repo = usuario.UserRepository()
@@ -52,17 +53,19 @@ def login():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     global feedback_message
-    user = request.form.get("name").lower().strip()
-    senha = request.form.get("password")
-    confirmar_senha = request.form.get("confirm_password")
-    if not user or not senha:
-        return render_template("register.html", error_message="Usuários e senhas não podem ser vazios")
-    if senha == confirmar_senha:
-        repo = usuario.UserRepository()
-        repo.insert(user, senha)
-        feedback_message = "Conta criada com sucesso!"
-        return redirect("/")
-    return render_template("register.html", error_message="As senhas precisam ser iguais")
+    form = RegistrationForm()
+    if request.method == "POST":
+        user = form.username.data.lower().strip()
+        senha = form.password.data.strip()
+        confirmar_senha = form.confirm_password.data.strip()
+        if not user or not senha:
+            return render_template("register.html", error_message="Usuários e senhas não podem ser vazios", form=form)
+        if senha == confirmar_senha:
+            repo = usuario.UserRepository()
+            repo.insert(user, senha)
+            feedback_message = "Conta criada com sucesso!"
+            return redirect("/")
+    return render_template("register.html", error_message="As senhas precisam ser iguais", form=form)
 
 @app.route("/root", methods=["GET", "POST"])
 def root():
@@ -96,11 +99,15 @@ def root():
                 args.append(request.form.get(key))
             table_repository[titulo].insert(*args)
     if session.get("name") == "root":
-        #db = DBConnectionHandler()
-        #metadata = MetaData()
-        #metadata.reflect(bind=db.get_engine())
-        #listafoda = list(metadata.tables.keys())
-        #tabelaaquiseria = metadata.tables.values()
+        db = DBConnectionHandler()
+        metadata = MetaData()
+        metadata.reflect(bind=db.get_engine())
+        listafoda = list(metadata.tables.keys())
+        tabelaaquiseria = metadata.tables.items()
+        for i in tabelaaquiseria:
+            print(i)
+        print(listafoda)
+        print(tabelaaquiseria)
         return render_template("root.html", elementos=tables)
     return redirect("/")
 
