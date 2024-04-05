@@ -13,9 +13,9 @@
       border: 1px solid #ccc;
       padding: 10px;
       z-index: 9999;
-      max-height: 80vh; /* Altura máxima do popup (80% da altura da viewport) */
-      width: 80%; /* Largura do popup */
-      overflow-y: auto; /* Adiciona scroll vertical apenas quando necessário */
+      max-height: 80vh;
+      width: 80%; 
+      overflow-y: auto; 
     }
 
     .popup ul {
@@ -24,15 +24,18 @@
     }
 
     .popup li {
-      margin-bottom: 10px; /* Espaçamento entre os itens da lista */
+      margin-bottom: 10px;
     }
   </style>
 
+  <form action="/root" method="post">
+    <button type="submit" name="submit_button" value="log_out">Log out</button>
+  </form>
 
   {% for item in elementos %}
       <h1>
         <form action="/root" method="post">
-            <label for="elemento_title">{{ item.capitalize() }}</label>
+          <label for="elemento_title">{{ item.capitalize() }}</label>
           <button type="submit" name="submit_button" value="adicionar_{{ item }}">+</button>
           <button type="submit" name="submit_button" value="ver_{{ item }}">Ver</button>
         </form><br><br>
@@ -46,15 +49,12 @@
           <h2 for="{{ messages[2] }}">{{ messages[1] }}</h2>
           <button onclick="this.parentElement.style.display='none';">Fechar</button>
           <form action="/root" method="post">
+            {{ form.hidden_tag() }}
             <ul>
-              {% for key, values in session.get('lista')[0].items() %}
-                {% if 'instance' not in key and key != 'id' and key != 'salt' %}
-                  <label for="text_{{ key }}">{{ key }}: </label>
-                  <input type="text" autocomplete="off" id="input_{{ key }}" name="{{ key }}">
-                {% endif %}
+              {% for campo in form._fields.items() %}
+                <div>{{ campo.label() }}: {{ campo() }}</div>
               {% endfor %}
             </ul>
-            <button type="submit" name="submit_button" value="insert_{{ messages[1] }}">{{ messages[1] }}</button>
           </form>
         </div>
       {% else %}
