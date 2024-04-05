@@ -1,8 +1,6 @@
 from flask import Flask, jsonify, render_template, request, redirect, flash, session, url_for
 from flask_session import Session
-from .infra.entities import Aeroporto, Assento, Aviao, Passageiro, Ticket, Usuario, Voo
-from .infra.configs.connection import DBConnectionHandler
-from .forms import RegistrationForm
+from .forms import RegistrationForm, LoginForm
 from flask_sqlalchemy import SQLAlchemy
 
 import json
@@ -11,29 +9,34 @@ app.config["SECRET_KEY"] = "9e4976770668bf1ce6786245c1208161"
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql+pymysql://root:senha@localhost:3306/dbaereo'
-db = SQLAlchemy()
+db = SQLAlchemy(app)
+from .infra.repository.user_repository import UserRepository
+from .infra.entities import Aeroporto, Assento, Aviao, Passageiro, Ticket, Usuario, Voo
+with app.app_context():
+    db.create_all()
 Session(app)
 feedback_message=""
 
 @app.route("/", methods=["GET", "POST"])
 def login():
     global feedback_message
+    form = LoginForm()
     session.clear()
     if request.method == "POST":
-        if request.form["submit_button"] == "register_button":
-            return redirect("/register")
-        if request.form["submit_button"] == "login_button":
-            user = request.form.get("name").lower().strip()
-            userObj = Usuario.query().filterby(user).first()
-            senha = request.form.get("password")
+        if form.submit_login.data:
+            user = form.username.data.lower().strip()
+            userObj = Usuario.Usuario.query.filter_by(user=user).first()
+            senha = form.password.data.strip()
             if not userObj or not usuario.verify_password(userObj, senha):
-                return render_template("index.html", feedback_message="Usuário ou senha inválidos.")
+                return render_template("index.html", feedback_message="Usuário ou senha inválidos.", form=form)
             if userObj.user == "root":
                 session["name"] = userObj.user
                 return redirect("/root")
             #return render_template("próxima página")
+        if request.form["submit_button"] == "register":
+            return redirect("/register")
 
-    return render_template("index.html", feedback_message=feedback_message)
+    return render_template("index.html", feedback_message=feedback_message, form=form)
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -46,7 +49,10 @@ def register():
         if not user or not senha:
             return render_template("register.html", error_message="Usuários e senhas não podem ser vazios", form=form)
         if senha == confirmar_senha:
-            Usuario(user=user, senha=senha)
+            usuario = 
+            Usuario.Usuario(user=user, senha=senha)
+            db.session.add(usuario)
+            db.session.commit()
             feedback_message = "Conta criada com sucesso!"
             return redirect("/")
     return render_template("register.html", error_message="As senhas precisam ser iguais", form=form)
@@ -75,15 +81,15 @@ def root():
                 args.append(request.form.get(key))
             #table_repository[titulo].insert(*args)
     if session.get("name") == "root":
-        db = DBConnectionHandler()
-        metadata = MetaData()
-        metadata.reflect(bind=db.get_engine())
-        listafoda = list(metadata.tables.keys())
-        tabelaaquiseria = metadata.tables.items()
-        for i in tabelaaquiseria:
-            print(i)
-        print(listafoda)
-        print(tabelaaquiseria)
+        #db = DBConnectionHandler()
+        #metadata = MetaData()
+        #metadata.reflect(bind=db.get_engine())
+        #listafoda = list(metadata.tables.keys())
+        #tabelaaquiseria = metadata.tables.items()
+        #for i in tabelaaquiseria:
+        #    print(i)
+        #print(listafoda)
+        #print(tabelaaquiseria)
         return render_template("root.html", elementos=tables)
     return redirect("/")
 

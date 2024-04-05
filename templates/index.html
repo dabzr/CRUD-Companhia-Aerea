@@ -4,11 +4,13 @@
 
   <h1>Login</h1>
     <form action="/" method="post">
-      {{ form.hiddent_tag() }}
+      {{ form.hidden_tag() }}
       <div>{{ form.username.label() }}: {{ form.username() }}</div><br>
       <div>{{ form.password.label() }}: {{ form.password() }}</div><br>
       <div>{{ form.submit_login() }}</div>
-      <div>{{ form.submit_register() }}</div>
+    </form>
+    <form action="/" method="post">
+      <button type="submit" value="register" name="submit_button">Criar conta</button>
     </form>
     <p> {{ feedback_message }}</p>
 

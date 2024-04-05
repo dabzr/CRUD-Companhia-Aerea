@@ -1,4 +1,5 @@
-from __main__ import db
+from ...app import db
+
 class Ticket(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     id_assento = db.Column(db.Integer, db.ForeignKey('assento.id'))
