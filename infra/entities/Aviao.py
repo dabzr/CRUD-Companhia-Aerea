@@ -1,4 +1,4 @@
-from __main__ import db
+from ...app import db
 class Aviao(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(50), unique=True, nullable=False)

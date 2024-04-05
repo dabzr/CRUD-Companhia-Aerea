@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, IntegerField, BooleanField
+from wtforms import StringField, PasswordField, SubmitField, IntegerField, BooleanField, DateTimeField
 from wtforms.validators import DataRequired, Length, EqualTo
 
 class RegistrationForm(FlaskForm):
@@ -12,7 +12,6 @@ class LoginForm(FlaskForm):
     username = StringField('User', validators=[DataRequired(), Length(min=1, max=50)])
     password = PasswordField('Senha', validators=[DataRequired()])
     submit_login = SubmitField('Login')
-    submit_register = SubmitField('Criar conta')
 
 class AeroportoForm(FlaskForm):
     nome = StringField('nome', validators=[DataRequired(), Length(min=1, max=50)])
@@ -32,7 +31,7 @@ class AviaoForm(FlaskForm):
 class PassageiroForm(FlaskForm):
     nome = StringField('nome', validators=[DataRequired(), Length(min=3, max=50)])
     id_usuario = IntegerField('id_aviao', validators=[DataRequired()])
-    submit = SumitField('Adicionar passageiro')
+    submit = SubmitField('Adicionar passageiro')
 
 class TicketForm(FlaskForm):
     id_assento = IntegerField('id_assento', validators=[DataRequired()])
