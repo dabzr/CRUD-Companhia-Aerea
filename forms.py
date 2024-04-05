@@ -19,7 +19,7 @@ class AeroportoForm(FlaskForm):
 
 class AssentoForm(FlaskForm):
     assento_id = StringField('assento_id', validators=[DataRequired(), Length(min=3, max=5)])
-    id_aviao = IntegerField('id_aviao', validaotrs=[DataRequired()])
+    id_aviao = IntegerField('id_aviao', validators=[DataRequired()])
     ocupado = BooleanField('ocupado', validators=[DataRequired()])
     submit = SubmitField('Adicionar assento')
 

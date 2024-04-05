@@ -2,7 +2,7 @@ from flask import Flask, jsonify, render_template, request, redirect, flash, ses
 from flask_session import Session
 from .forms import RegistrationForm, LoginForm
 from flask_sqlalchemy import SQLAlchemy
-
+from .infra.repository.password import verify_password
 import json
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "9e4976770668bf1ce6786245c1208161"
@@ -24,10 +24,10 @@ def login():
     session.clear()
     if request.method == "POST":
         if form.submit_login.data:
-            user = form.username.data.lower().strip()
+            user = str(form.username.data).lower().strip()
             userObj = Usuario.Usuario.query.filter_by(user=user).first()
-            senha = form.password.data.strip()
-            if not userObj or not usuario.verify_password(userObj, senha):
+            senha = str(form.password.data).strip()
+            if not userObj or not verify_password(userObj, senha):
                 return render_template("index.html", feedback_message="Usuário ou senha inválidos.", form=form)
             if userObj.user == "root":
                 session["name"] = userObj.user
@@ -43,14 +43,13 @@ def register():
     global feedback_message
     form = RegistrationForm()
     if request.method == "POST":
-        user = form.username.data.lower().strip()
-        senha = form.password.data.strip()
-        confirmar_senha = form.confirm_password.data.strip()
+        user = str(form.username.data).lower().strip()
+        senha = str(form.password.data).strip()
+        confirmar_senha = str(form.confirm_password.data).strip()
         if not user or not senha:
             return render_template("register.html", error_message="Usuários e senhas não podem ser vazios", form=form)
         if senha == confirmar_senha:
-            usuario = 
-            Usuario.Usuario(user=user, senha=senha)
+            usuario = Usuario.Usuario(user=user, senha=senha)
             db.session.add(usuario)
             db.session.commit()
             feedback_message = "Conta criada com sucesso!"
@@ -69,16 +68,17 @@ def root():
             #session['lista'] = lista
             return redirect("/popup")
         if "insert" in request.form["submit_button"]:
-            titulo = list(request.form.items())[-1][-1].split()[-1].lower()
-            args = []
-            lista_higienizada = list(session.get('lista')[0].keys())
-            abc = []
-            for i in lista_higienizada:
-                if "instance" not in i and i != "id":
-                    abc.append(i)
-            lista_higienizada = abc
-            for key in lista_higienizada:
-                args.append(request.form.get(key))
+            pass
+            #titulo = list(request.form.items())[-1][-1].split()[-1].lower()
+            #args = []
+            #lista_higienizada = list(session.get('lista')[0].keys())
+            # abc = []
+            #for i in lista_higienizada:
+            #    if "instance" not in i and i != "id":
+            #        abc.append(i)
+            #lista_higienizada = abc
+            #for key in lista_higienizada:
+            #    args.append(request.form.get(key))
             #table_repository[titulo].insert(*args)
     if session.get("name") == "root":
         #db = DBConnectionHandler()
@@ -90,14 +90,14 @@ def root():
         #    print(i)
         #print(listafoda)
         #print(tabelaaquiseria)
-        return render_template("root.html", elementos=tables)
+        return render_template("root.html")
     return redirect("/")
 
 @app.route("/popup", methods=["GET", "POST"])
 def popup():
-    flash(session.get('elemento').split("_")[0])
-    title = session.get('elemento').split("_")[0].capitalize()
-    title += " " + session.get('elemento').split("_")[1].capitalize()
+    flash(str(session.get('elemento')).split("_")[0])
+    title = str(session.get('elemento')).split("_")[0].capitalize()
+    title += " " + str(session.get('elemento')).split("_")[1].capitalize()
     flash(title)
     return redirect(url_for("root"))
 
