@@ -9,13 +9,13 @@ class UserRepository:
                 print("usuario ja existe")
                 return
         hashed_password = create_hash_password(password)
-            try:
-                data_insert = Usuario(user=user, senha=hashed_password[0], salt=hashed_password[1])
-                db.session.add(data_insert)
-                db.session.commit()
-            except Exception as e:
-                print(e)
-                db.session.rollback()
+        try:
+            data_insert = Usuario(user=user, senha=hashed_password[0], salt=hashed_password[1])
+            db.session.add(data_insert)
+            db.session.commit()
+        except Exception as e:
+            print(e)
+            db.session.rollback()
 
     def delete(self, user):
             try:

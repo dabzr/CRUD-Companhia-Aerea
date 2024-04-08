@@ -1,6 +1,7 @@
 from bcrypt import hashpw, gensalt, checkpw
 import binascii
 from ..entities.Usuario import Usuario
+from typing import Type
 
 def verify_password(usuario:Type[Usuario], password):
     bpassword = password.encode('utf-8')

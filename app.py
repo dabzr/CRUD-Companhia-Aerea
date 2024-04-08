@@ -2,7 +2,7 @@ from flask import Flask, jsonify, render_template, request, redirect, flash, ses
 from flask_session import Session
 from .forms import RegistrationForm, LoginForm
 from flask_sqlalchemy import SQLAlchemy
-from .infra.repository.password import verify_password
+#from .infra.repository.password import verify_password
 import json
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "9e4976770668bf1ce6786245c1208161"
