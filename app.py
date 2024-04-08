@@ -15,11 +15,9 @@ from .infra.repository.password import verify_password, create_hash_password
 with app.app_context():
     db.create_all()
 Session(app)
-feedback_message=""
 
 @app.route("/", methods=["GET", "POST"])
 def login():
-    global feedback_message
     form = LoginForm()
     session.clear()
     if request.method == "POST":
@@ -28,34 +26,35 @@ def login():
             userObj = Usuario.Usuario.query.filter_by(user=user).first()
             senha = str(form.password.data).strip()
             if not userObj or not verify_password(userObj, senha):
-                return render_template("index.html", feedback_message="Usuário ou senha inválidos.", form=form)
+                flash("Usuário ou senha inválidos")
+                return render_template("index.html", form=form)
             if userObj.user == "root":
                 session["name"] = userObj.user
                 return redirect("/root")
             #return render_template("próxima página")
         if request.form["submit_button"] == "register":
             return redirect("/register")
-
-    return render_template("index.html", feedback_message=feedback_message, form=form)
+    return render_template("index.html", form=form)
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
-    global feedback_message
     form = RegistrationForm()
     if request.method == "POST":
+        if request.form.get("submit_button") and "login" in request.form["submit_button"]: 
+            return redirect("/")
         user = str(form.username.data).lower().strip()
         senha = str(form.password.data).strip()
         confirmar_senha = str(form.confirm_password.data).strip()
-        if not user or not senha:
-            return render_template("register.html", error_message="Usuários e senhas não podem ser vazios", form=form)
         if senha == confirmar_senha:
             tuple = create_hash_password(senha)
             usuario = Usuario.Usuario(user=user, senha=tuple[0], salt=tuple[1])
             db.session.add(usuario)
             db.session.commit()
-            feedback_message = "Conta criada com sucesso!"
-            return redirect("/")
-    return render_template("register.html", error_message="As senhas precisam ser iguais", form=form)
+            flash("Conta criada com sucesso!")
+            return render_template("register.html", form=form)
+        flash("As senhas precisam ser iguais")
+        return render_template("register.html", form=form)
+    return render_template("register.html", form=form)
 
 @app.route("/root", methods=["GET", "POST"])
 def root():

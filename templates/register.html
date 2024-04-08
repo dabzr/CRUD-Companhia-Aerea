@@ -2,6 +2,9 @@
 
 {% block body %}
 
+  <form action="/register" method="post">
+    <button type="submit" name="submit_button" value="login">Login</button>
+  </form>
   <h1>Criar conta</h1>
     <form action="/register" method="post">
       {{ form.hidden_tag() }}
@@ -10,6 +13,13 @@
       <div> {{ form.confirm_password.label() }}: {{ form.confirm_password() }}</div><br>
       <div> {{ form.submit() }} </div>
     </form>
-    <p> {{ error_message }}</p>
+    <p> 
+      {% with messages = get_flashed_messages() %} 
+        {% if messages %}
+          {{ messages[0] }}
+        {% endif %}
+      {% endwith %}
+    </p>
+
 
 {% endblock %}

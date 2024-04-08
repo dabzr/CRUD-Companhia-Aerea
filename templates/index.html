@@ -12,6 +12,12 @@
     <form action="/" method="post">
       <button type="submit" value="register" name="submit_button">Criar conta</button>
     </form>
-    <p> {{ feedback_message }}</p>
+    <p> 
+      {% with messages = get_flashed_messages() %} 
+        {% if messages %}
+          {{ messages[0] }}
+        {% endif %}
+      {% endwith %}
+    </p>
 
 {% endblock %}
