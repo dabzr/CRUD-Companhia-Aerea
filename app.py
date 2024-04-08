@@ -2,7 +2,6 @@ from flask import Flask, jsonify, render_template, request, redirect, flash, ses
 from flask_session import Session
 from .forms import RegistrationForm, LoginForm
 from flask_sqlalchemy import SQLAlchemy
-#from .infra.repository.password import verify_password
 import json
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "9e4976770668bf1ce6786245c1208161"
@@ -12,6 +11,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql+pymysql://root:senha@localhost:33
 db = SQLAlchemy(app)
 from .infra.repository.user_repository import UserRepository
 from .infra.entities import Aeroporto, Assento, Aviao, Passageiro, Ticket, Usuario, Voo
+from .infra.repository.password import verify_password, create_hash_password
 with app.app_context():
     db.create_all()
 Session(app)
@@ -49,7 +49,8 @@ def register():
         if not user or not senha:
             return render_template("register.html", error_message="Usuários e senhas não podem ser vazios", form=form)
         if senha == confirmar_senha:
-            usuario = Usuario.Usuario(user=user, senha=senha)
+            tuple = create_hash_password(senha)
+            usuario = Usuario.Usuario(user=user, senha=tuple[0], salt=tuple[1])
             db.session.add(usuario)
             db.session.commit()
             feedback_message = "Conta criada com sucesso!"
